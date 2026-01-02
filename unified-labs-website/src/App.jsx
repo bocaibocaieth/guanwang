@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Shield, TrendingUp, Globe, Layers, ArrowRight, Activity, Cpu, Lock, X, Menu, ChevronDown, Coins } from 'lucide-react';
+import { Shield, TrendingUp, Globe, Layers, ArrowRight, Activity, Cpu, Lock, X, Menu, ChevronDown, Coins, Newspaper, Calendar, Settings } from 'lucide-react';
 import * as THREE from 'three';
+import { getNewsList, formatDate } from './utils/newsManager';
 
 // --- 1. Logo Component (Pixel Perfect Recreation) ---
 const Logo = () => (
@@ -256,6 +257,95 @@ const DataStat = ({ value, label, subValue }) => (
   </div>
 );
 
+// --- News/Insights Components ---
+const NewsCard = ({ news, featured = false }) => {
+  const categoryColors = {
+    'Partnership': 'bg-blue-900/30 text-blue-400 border-blue-900/50',
+    'Report': 'bg-green-900/30 text-green-400 border-green-900/50',
+    'Technology': 'bg-purple-900/30 text-purple-400 border-purple-900/50',
+    'Announcement': 'bg-yellow-900/30 text-yellow-400 border-yellow-900/50',
+  };
+
+  const colorClass = categoryColors[news.category] || 'bg-gray-900/30 text-gray-400 border-gray-900/50';
+
+  if (featured) {
+    return (
+      <div className="group col-span-full md:col-span-2 border border-white/10 p-8 hover:border-white/30 transition-all duration-500 bg-black/40 backdrop-blur-sm">
+        <div className="flex items-center gap-4 mb-4">
+          <span className={`text-xs font-mono px-3 py-1 rounded border ${colorClass}`}>
+            {news.category}
+          </span>
+          <div className="flex items-center gap-2 text-gray-500 text-xs font-mono">
+            <Calendar size={12} />
+            {formatDate(news.createdAt)}
+          </div>
+        </div>
+        <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-4 group-hover:tracking-wide transition-all duration-500">
+          {news.title}
+        </h3>
+        <p className="text-gray-400 leading-relaxed mb-6">
+          {news.summary}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-gray-500">By {news.author}</span>
+          <button className="flex items-center gap-2 text-white text-sm font-medium group-hover:gap-4 transition-all duration-300">
+            Read More
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="group border-l border-white/10 pl-6 py-4 hover:border-white/40 transition-all duration-500">
+      <div className="flex items-center gap-3 mb-3">
+        <span className={`text-xs font-mono px-2 py-0.5 rounded border ${colorClass}`}>
+          {news.category}
+        </span>
+        <span className="text-xs text-gray-600 font-mono">{formatDate(news.createdAt)}</span>
+      </div>
+      <h4 className="text-lg font-serif font-bold text-white mb-2 group-hover:text-gray-200 transition-colors">
+        {news.title}
+      </h4>
+      <p className="text-sm text-gray-500 line-clamp-2">
+        {news.summary}
+      </p>
+    </div>
+  );
+};
+
+const InsightsList = () => {
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    setNews(getNewsList());
+  }, []);
+
+  if (news.length === 0) {
+    return (
+      <div className="text-center py-16 border border-white/10 rounded">
+        <Newspaper size={48} className="mx-auto text-gray-700 mb-4" />
+        <p className="text-gray-500 font-mono text-sm">No news available yet.</p>
+        <a href="/admin.html" className="text-cyan-400 hover:text-cyan-300 text-sm mt-2 inline-block">
+          Add your first news article →
+        </a>
+      </div>
+    );
+  }
+
+  const [featuredNews, ...otherNews] = news;
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {featuredNews && <NewsCard news={featuredNews} featured />}
+      {otherNews.slice(0, 4).map((item) => (
+        <NewsCard key={item.id} news={item} />
+      ))}
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <div className="bg-black min-h-screen text-white selection:bg-white selection:text-black overflow-x-hidden">
@@ -441,6 +531,32 @@ export default function App() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* --- INSIGHTS / NEWS SECTION --- */}
+      <section id="insights" className="relative z-10 py-32 bg-black">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-16 flex flex-col md:flex-row justify-between items-end border-b border-white/10 pb-8">
+            <div>
+              <div className="inline-flex items-center gap-2 mb-4">
+                <Newspaper size={20} className="text-gray-400" />
+                <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">Latest Updates</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">
+                Insights & News
+              </h2>
+            </div>
+            <a
+              href="/admin.html"
+              className="mt-4 md:mt-0 flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-white transition-colors uppercase tracking-widest"
+            >
+              <Settings size={14} />
+              Manage News
+            </a>
+          </div>
+
+          <InsightsList />
         </div>
       </section>
 
