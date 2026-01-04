@@ -19,6 +19,7 @@ export default function Nav() {
     { name: 'Services', href: '/#services' },
     { name: 'Technology', href: '/#technology' },
     { name: 'News', href: '/news' },
+    { name: 'Insights', href: '/insights' },
     { name: 'About', href: '/#about' },
   ]
 

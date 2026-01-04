@@ -10,9 +10,10 @@ export const revalidate = 60
 
 async function getNewsBySlug(slug: string) {
   const { data, error } = await supabase
-    .from('news')
+    .from('posts')
     .select('*')
     .eq('slug', slug)
+    .eq('post_type', 'news')
     .eq('is_published', true)
     .single()
 
@@ -69,12 +70,12 @@ export default async function NewsDetailPage({
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-serif font-bold leading-tight">
+            <h1 className="text-3xl md:text-4xl font-serif font-bold leading-tight">
               {news.title}
             </h1>
 
             {news.summary && (
-              <p className="text-xl text-gray-400 mt-6 leading-relaxed">
+              <p className="text-lg text-gray-400 mt-6 leading-relaxed">
                 {news.summary}
               </p>
             )}
@@ -82,7 +83,7 @@ export default async function NewsDetailPage({
 
           {/* Cover Image */}
           {news.cover_image && (
-            <div className="relative h-64 md:h-[500px] overflow-hidden mb-12 border border-white/10">
+            <div className="relative h-64 md:h-96 overflow-hidden mb-12 border border-white/10">
               <Image
                 src={news.cover_image}
                 alt={news.title}

@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import {
   LayoutDashboard,
-  Newspaper,
+  FileText,
   LogOut,
   Menu,
   X
@@ -68,7 +68,7 @@ export default function AdminLayout({
 
   const navItems = [
     { href: '/admin', icon: LayoutDashboard, label: '仪表盘' },
-    { href: '/admin/news', icon: Newspaper, label: '新闻管理' },
+    { href: '/admin/posts', icon: FileText, label: '内容管理' },
   ]
 
   return (
@@ -94,7 +94,7 @@ export default function AdminLayout({
 
         <nav className="p-4 space-y-2">
           {navItems.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
               <Link
                 key={item.href}

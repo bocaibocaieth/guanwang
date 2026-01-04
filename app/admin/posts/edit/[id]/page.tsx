@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-import { ArrowLeft, Save } from 'lucide-react'
+import { supabase, PostType } from '@/lib/supabase'
+import { ArrowLeft, Save, Newspaper, Lightbulb } from 'lucide-react'
 import Link from 'next/link'
 
-export default function EditNewsPage({ params }: { params: { id: string } }) {
+export default function EditPostPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -16,21 +16,24 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
     summary: '',
     content: '',
     cover_image: '',
-    category: '公司动态',
+    category: 'Company Updates',
+    post_type: 'news' as PostType,
+    author: '',
+    read_time: '',
     is_published: false
   })
 
   useEffect(() => {
-    const fetchNews = async () => {
+    const fetchPost = async () => {
       const { data, error } = await supabase
-        .from('news')
+        .from('posts')
         .select('*')
         .eq('id', params.id)
         .single()
 
       if (error || !data) {
-        alert('新闻不存在')
-        router.push('/admin/news')
+        alert('文章不存在')
+        router.push('/admin/posts')
       } else {
         setFormData({
           title: data.title,
@@ -39,13 +42,16 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
           content: data.content,
           cover_image: data.cover_image || '',
           category: data.category,
+          post_type: data.post_type,
+          author: data.author || '',
+          read_time: data.read_time?.toString() || '',
           is_published: data.is_published
         })
       }
       setLoading(false)
     }
 
-    fetchNews()
+    fetchPost()
   }, [params.id, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,9 +59,18 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
     setSaving(true)
 
     const { error } = await supabase
-      .from('news')
+      .from('posts')
       .update({
-        ...formData,
+        title: formData.title,
+        slug: formData.slug,
+        summary: formData.summary,
+        content: formData.content,
+        cover_image: formData.cover_image || null,
+        category: formData.category,
+        post_type: formData.post_type,
+        author: formData.author || null,
+        read_time: formData.read_time ? parseInt(formData.read_time) : null,
+        is_published: formData.is_published,
         updated_at: new Date().toISOString()
       })
       .eq('id', params.id)
@@ -64,11 +79,15 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
       alert('保存失败：' + error.message)
       setSaving(false)
     } else {
-      router.push('/admin/news')
+      router.push('/admin/posts')
     }
   }
 
-  const categories = ['公司动态', '产品更新', '行业资讯', '技术分享', '活动公告']
+  const newsCategories = ['Company Updates', 'Product News', 'Industry News', 'Announcements']
+  const insightCategories = ['Research', 'Analysis', 'Strategy', 'Technology', 'Market Trends']
+  const categories = formData.post_type === 'news' ? newsCategories : insightCategories
+
+  const isInsight = formData.post_type === 'insight'
 
   if (loading) {
     return (
@@ -82,16 +101,40 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
     <div>
       <div className="flex items-center gap-4 mb-6">
         <Link
-          href="/admin/news"
+          href="/admin/posts"
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">编辑新闻</h1>
+        <div className="flex items-center gap-3">
+          {isInsight ? (
+            <Lightbulb className="w-6 h-6 text-purple-600" />
+          ) : (
+            <Newspaper className="w-6 h-6 text-blue-600" />
+          )}
+          <h1 className="text-2xl font-bold text-gray-900">
+            编辑{isInsight ? '洞察' : '新闻'}
+          </h1>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6">
         <div className="grid gap-6">
+          {/* 文章类型显示 (不可编辑) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              文章类型
+            </label>
+            <div className={`inline-flex items-center gap-2 px-4 py-3 border rounded-lg ${
+              isInsight
+                ? 'border-purple-300 bg-purple-50 text-purple-700'
+                : 'border-blue-300 bg-blue-50 text-blue-700'
+            }`}>
+              {isInsight ? <Lightbulb className="w-5 h-5" /> : <Newspaper className="w-5 h-5" />}
+              <span className="font-medium">{isInsight ? '洞察 (Insight)' : '新闻 (News)'}</span>
+            </div>
+          </div>
+
           {/* 标题 */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -102,7 +145,7 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-              placeholder="输入新闻标题"
+              placeholder="输入文章标题"
               required
             />
           </div>
@@ -122,6 +165,39 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
               ))}
             </select>
           </div>
+
+          {/* 作者 (Insight only) */}
+          {isInsight && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                作者
+              </label>
+              <input
+                type="text"
+                value={formData.author}
+                onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                placeholder="作者姓名"
+              />
+            </div>
+          )}
+
+          {/* 阅读时间 (Insight only) */}
+          {isInsight && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                阅读时间 (分钟)
+              </label>
+              <input
+                type="number"
+                min="1"
+                value={formData.read_time}
+                onChange={(e) => setFormData({ ...formData, read_time: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                placeholder="例如: 5"
+              />
+            </div>
+          )}
 
           {/* 封面图片 */}
           <div>
@@ -147,7 +223,7 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
               onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none"
               rows={3}
-              placeholder="简短描述新闻内容（显示在列表页）"
+              placeholder="简短描述文章内容（显示在列表页）"
               required
             />
           </div>
@@ -162,7 +238,7 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none font-mono text-sm"
               rows={12}
-              placeholder="<p>在这里输入新闻正文内容...</p>"
+              placeholder="<p>在这里输入正文内容...</p>"
               required
             />
           </div>
@@ -187,13 +263,15 @@ export default function EditNewsPage({ params }: { params: { id: string } }) {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
+            className={`flex items-center gap-2 px-6 py-3 text-white rounded-lg transition-colors disabled:opacity-50 ${
+              isInsight ? 'bg-purple-600 hover:bg-purple-700' : 'bg-blue-600 hover:bg-blue-700'
+            }`}
           >
             <Save className="w-4 h-4" />
             {saving ? '保存中...' : '保存更改'}
           </button>
           <Link
-            href="/admin/news"
+            href="/admin/posts"
             className="px-6 py-3 text-gray-600 hover:text-gray-900 transition-colors"
           >
             取消

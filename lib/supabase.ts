@@ -6,8 +6,11 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+// 文章类型
+export type PostType = 'news' | 'insight'
+
 // 数据库类型定义
-export interface News {
+export interface Post {
   id: string
   title: string
   slug: string
@@ -15,13 +18,13 @@ export interface News {
   content: string
   cover_image: string | null
   category: string
+  post_type: PostType
+  author: string | null
+  read_time: number | null
   is_published: boolean
   created_at: string
   updated_at: string
 }
 
-export interface Category {
-  id: string
-  name: string
-  slug: string
-}
+// 向后兼容的别名
+export type News = Post
