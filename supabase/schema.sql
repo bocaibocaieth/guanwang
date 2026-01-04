@@ -87,3 +87,51 @@ INSERT INTO posts (title, slug, summary, content, category, post_type, author, r
   12,
   true
 );
+
+-- ============================================
+-- 联系表单消息表
+-- ============================================
+
+-- 6. 创建联系消息表
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  company TEXT,
+  subject TEXT NOT NULL,
+  message TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 7. 创建索引
+CREATE INDEX IF NOT EXISTS idx_contact_messages_created_at ON contact_messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_contact_messages_is_read ON contact_messages(is_read);
+
+-- 8. 启用 RLS
+ALTER TABLE contact_messages ENABLE ROW LEVEL SECURITY;
+
+-- 9. 创建 RLS 策略
+
+-- 允许任何人提交联系表单（无需登录）
+CREATE POLICY "允许任何人提交联系表单" ON contact_messages
+  FOR INSERT
+  WITH CHECK (true);
+
+-- 只有已登录用户可以查看消息
+CREATE POLICY "已登录用户可查看联系消息" ON contact_messages
+  FOR SELECT
+  TO authenticated
+  USING (true);
+
+-- 已登录用户可以更新消息（标记已读）
+CREATE POLICY "已登录用户可更新联系消息" ON contact_messages
+  FOR UPDATE
+  TO authenticated
+  USING (true);
+
+-- 已登录用户可以删除消息
+CREATE POLICY "已登录用户可删除联系消息" ON contact_messages
+  FOR DELETE
+  TO authenticated
+  USING (true);
