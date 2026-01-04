@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Unified Labs - News',
-  description: 'Latest news and updates from Unified Labs',
+  title: 'Unified Labs | Liquidity Engineered',
+  description: 'Unified Labs bridges Traditional Finance and DeFi. We curate risk, make markets, and engineer the future of yield.',
 }
 
 export default function RootLayout({
@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
-      <body className="bg-gray-50 min-h-screen">
+    <html lang="en">
+      <body className="bg-black min-h-screen text-white selection:bg-white selection:text-black">
         {children}
       </body>
     </html>

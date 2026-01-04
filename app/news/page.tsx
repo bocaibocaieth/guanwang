@@ -1,4 +1,5 @@
-import Header from '@/components/Header'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 import NewsCard from '@/components/NewsCard'
 import { supabase } from '@/lib/supabase'
 
@@ -23,25 +24,44 @@ export default async function NewsListPage() {
   const news = await getAllNews()
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div className="bg-black min-h-screen text-white">
+      <Nav />
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">新闻中心</h1>
+      {/* Hero Section */}
+      <section className="pt-32 pb-16 px-6 border-b border-white/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="inline-block px-3 py-1 border border-white/20 text-xs font-mono uppercase tracking-widest mb-6 text-gray-400">
+            Insights & Updates
+          </div>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
+            News & <br />
+            <span className="italic font-light opacity-80">Insights</span>
+          </h1>
+          <p className="text-gray-400 text-lg max-w-xl">
+            Stay updated with the latest developments, market insights, and announcements from Unified Labs.
+          </p>
+        </div>
+      </section>
 
-        {news.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {news.map((item) => (
-              <NewsCard key={item.id} news={item} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16 bg-white rounded-xl border">
-            <p className="text-gray-500 text-lg">暂无新闻</p>
-            <p className="text-gray-400 mt-2">敬请期待更多内容</p>
-          </div>
-        )}
-      </div>
+      {/* News Grid */}
+      <section className="py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          {news.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {news.map((item) => (
+                <NewsCard key={item.id} news={item} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-24 border border-white/10">
+              <p className="text-gray-400 text-lg font-serif">No news yet</p>
+              <p className="text-gray-600 mt-2 font-mono text-sm">Check back soon for updates</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }
