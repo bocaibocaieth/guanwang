@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase'
 import {
   LayoutDashboard,
   FileText,
+  Mail,
   LogOut,
   Menu,
   X
@@ -69,6 +70,7 @@ export default function AdminLayout({
   const navItems = [
     { href: '/admin', icon: LayoutDashboard, label: '仪表盘' },
     { href: '/admin/posts', icon: FileText, label: '内容管理' },
+    { href: '/admin/messages', icon: Mail, label: '联系消息' },
   ]
 
   return (
