@@ -25,7 +25,7 @@ export default function Nav() {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-lg border-b border-white/10' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <Link href="/">
             <Logo />
           </Link>
@@ -35,12 +35,12 @@ export default function Nav() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors tracking-widest uppercase"
+                className="text-xs md:text-sm font-medium text-gray-400 hover:text-white transition-colors tracking-[0.15em] uppercase"
               >
                 {item.name}
               </Link>
             ))}
-            <button className="px-6 py-2 bg-white text-black font-serif font-bold hover:bg-gray-200 transition-colors">
+            <button className="px-6 py-2 bg-white text-black font-serif font-bold text-sm hover:bg-gray-200 transition-colors tracking-wide">
               Access Vaults
             </button>
           </div>
