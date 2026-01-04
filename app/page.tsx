@@ -64,13 +64,42 @@ export default function HomePage() {
           </div>
 
           <div className="mb-12">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight tracking-tight mb-6">
-              Institutional-Grade Strategies & Liquidity
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200">
-                for Onchain Finance
+            {/* LAYER 1: The Context */}
+            <div className="text-sm md:text-lg font-mono text-cyan-400 uppercase tracking-[0.6em] mb-4 md:mb-6 pl-1 opacity-80">
+              The layer where
+            </div>
+
+            {/* LAYER 2: The Duality - TradFi & DeFi */}
+            <div className="flex flex-col md:flex-row items-start md:items-baseline gap-4 md:gap-8 mb-4 md:mb-6">
+              {/* TradFi: Solid, Heavy, Serif */}
+              <span className="text-6xl md:text-8xl font-serif font-black text-white tracking-tighter drop-shadow-2xl">
+                TradFi
               </span>
-            </h1>
+
+              {/* Connector */}
+              <span className="text-4xl md:text-6xl font-serif italic text-gray-500 px-2 opacity-70 font-light">
+                &
+              </span>
+
+              {/* DeFi: Hollow, Outline, Glowing */}
+              <span
+                className="text-6xl md:text-8xl font-sans font-bold text-transparent tracking-tighter"
+                style={{
+                  WebkitTextStroke: '2px #22d3ee',
+                  textShadow: '0 0 25px rgba(34, 211, 238, 0.35)'
+                }}
+              >
+                DeFi
+              </span>
+            </div>
+
+            {/* LAYER 3: The Fusion */}
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full transform scale-x-110"></div>
+              <span className="relative text-5xl md:text-7xl font-serif italic font-medium text-transparent bg-clip-text bg-gradient-to-r from-gray-100 via-cyan-100 to-white tracking-wide mix-blend-overlay opacity-90">
+                become one.
+              </span>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row gap-12 items-start md:items-end border-l border-white/20 pl-8 ml-2 mt-12">
