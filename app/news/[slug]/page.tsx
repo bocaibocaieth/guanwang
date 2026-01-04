@@ -1,6 +1,7 @@
-import Header from '@/components/Header'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 import { supabase } from '@/lib/supabase'
-import { Calendar, Tag, ArrowLeft } from 'lucide-react'
+import { Calendar, ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -34,7 +35,7 @@ export default async function NewsDetailPage({
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('zh-CN', {
+    return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -42,52 +43,76 @@ export default async function NewsDetailPage({
   }
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div className="bg-black min-h-screen text-white">
+      <Nav />
 
-      <article className="max-w-4xl mx-auto px-4 py-12">
-        <Link
-          href="/news"
-          className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700 mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          返回新闻列表
-        </Link>
+      <article className="pt-32 pb-16">
+        <div className="max-w-4xl mx-auto px-6">
+          {/* Back Link */}
+          <Link
+            href="/news"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm uppercase tracking-widest font-mono"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to News
+          </Link>
 
-        <header className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {news.title}
-          </h1>
+          {/* Header */}
+          <header className="mb-12 border-b border-white/10 pb-8">
+            <div className="flex items-center gap-4 text-xs text-gray-500 mb-6 font-mono uppercase tracking-wider">
+              <span className="flex items-center gap-2">
+                <Calendar className="w-3 h-3" />
+                {formatDate(news.created_at)}
+              </span>
+              <span className="px-2 py-0.5 border border-white/20 rounded">
+                {news.category}
+              </span>
+            </div>
 
-          <div className="flex items-center gap-4 text-gray-500">
-            <span className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
-              {formatDate(news.created_at)}
-            </span>
-            <span className="flex items-center gap-1">
-              <Tag className="w-4 h-4" />
-              {news.category}
-            </span>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold leading-tight">
+              {news.title}
+            </h1>
+
+            {news.summary && (
+              <p className="text-xl text-gray-400 mt-6 leading-relaxed">
+                {news.summary}
+              </p>
+            )}
+          </header>
+
+          {/* Cover Image */}
+          {news.cover_image && (
+            <div className="relative h-64 md:h-[500px] overflow-hidden mb-12 border border-white/10">
+              <Image
+                src={news.cover_image}
+                alt={news.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          )}
+
+          {/* Content */}
+          <div
+            className="prose prose-lg prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: news.content }}
+          />
+
+          {/* Footer Navigation */}
+          <div className="mt-16 pt-8 border-t border-white/10">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-widest font-mono"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to all news
+            </Link>
           </div>
-        </header>
-
-        {news.cover_image && (
-          <div className="relative h-64 md:h-96 rounded-xl overflow-hidden mb-8">
-            <Image
-              src={news.cover_image}
-              alt={news.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        )}
-
-        <div
-          className="prose prose-lg max-w-none"
-          dangerouslySetInnerHTML={{ __html: news.content }}
-        />
+        </div>
       </article>
+
+      <Footer />
     </div>
   )
 }
