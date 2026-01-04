@@ -1,6 +1,6 @@
 'use client'
 
-import { Shield, TrendingUp, Globe, ArrowRight, Activity, Lock, ChevronDown, Coins, Cpu } from 'lucide-react'
+import { Shield, TrendingUp, Globe, ArrowRight, ChevronDown, Coins } from 'lucide-react'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import FluidGridBackground from '@/components/FluidGridBackground'
@@ -104,7 +104,7 @@ export default function HomePage() {
 
           <div className="flex flex-col md:flex-row gap-12 items-start md:items-end border-l border-white/20 pl-8 ml-2 mt-12">
             <p className="max-w-xl text-lg md:text-xl text-gray-400 leading-relaxed font-light">
-              Unified Labs bridges the divide between <span className="text-white font-medium">Traditional Finance</span> solidity and <span className="text-white font-medium">DeFi</span> agility. We curate risk, make markets, and engineer the future of yield.
+              Unified Labs delivers institutional risk strategies and liquidity infrastructure—optimal onchain allocation for every dollar deployed.
             </p>
 
             <button className="group flex items-center gap-4 text-white font-bold tracking-[0.15em] uppercase text-xs md:text-sm hover:text-gray-300 transition-colors">
@@ -183,95 +183,30 @@ export default function HomePage() {
               step="1"
               title="Risk Curator"
               icon={Shield}
-              desc="Providing institutional-grade curation services similar to Gauntlet. We curate risks, optimize parameters dynamically for customers, and offer Curator-as-a-Service."
-              features={["Vault Curation (Morpho/Aave)", "Curator-as-a-Service", "Dynamic Parameter Optimization"]}
+              desc="Vault strategy design and risk management for DeFi protocols. Asset screening, parameter optimization, and 24/7 monitoring."
+              features={["Vault Curation (Morpho/Euler)", "Dynamic Parameter Optimization", "Real-time Risk Monitoring"]}
             />
             <Card
               step="2"
               title="Market Making"
               icon={TrendingUp}
-              desc="Providing deep liquidity where it matters. Our algo-trading infrastructure bridges CEX and DEX liquidity across Asia-Pacific markets."
-              features={["Launch Day Liquidity", "Delta Neutral Strategy", "Cross-Venue Arbitrage"]}
+              desc="Liquidity provision for tokenized assets. Spot and derivatives market making across CEX and DEX venues."
+              features={["Launch Day Liquidity", "Delta Neutral Strategies", "Cross-Venue Arbitrage"]}
             />
             <Card
               step="3"
               title="Advisory"
               icon={Globe}
-              desc="Guiding institutions through the digital transition. Strategic consultancy for RWA tokenization and treasury management."
-              features={["RWA Tokenization", "Treasury Management", "Risk Curator"]}
+              desc="Strategic consulting for RWA tokenization, on-chain treasury management, and DeFi integration."
+              features={["RWA Tokenization Strategy", "Treasury Management", "DeFi Integration Consulting"]}
             />
             <Card
               step="4"
               title="Asset Management"
               icon={Coins}
-              desc="Proprietary active management for digital assets. We leverage quantitative strategies to capture on-chain alpha and maximize risk-adjusted returns."
-              features={["Proprietary Quant Strategies", "Active Yield Management", "Multi-Chain Alpha Capture"]}
+              desc="Bespoke onchain allocation products. Quantitative yield strategies for institutions and family offices."
+              features={["Proprietary Quant Strategies", "Customized Mandates", "Institutional Reporting"]}
             />
-          </div>
-        </div>
-      </section>
-
-      {/* --- TECH SHOWCASE --- */}
-      <section id="technology" className="relative z-10 py-40 bg-white text-black overflow-hidden">
-        <div className="absolute top-0 right-0 w-2/3 h-full bg-gray-50 transform skew-x-12 translate-x-48 z-0"></div>
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
-            <div>
-              <div className="inline-block px-4 py-1.5 bg-black text-white text-[10px] font-mono uppercase tracking-[0.2em] mb-8">
-                Proprietary Tech
-              </div>
-              <h2 className="text-5xl md:text-6xl font-serif font-bold mb-8 leading-tight">
-                Agent-Based <br />Simulation (ABS)
-              </h2>
-              <p className="text-xl text-gray-600 mb-10 leading-relaxed font-light">
-                Traditional risk models are static. Ours are alive. <br /><br />
-                We simulate millions of market scenarios daily, treating every protocol participant as an autonomous agent. This allows us to predict cascading liquidations and adjust parameters on-chain <strong className="font-semibold text-black border-b border-black">before</strong> the crisis hits.
-              </p>
-
-              <div className="space-y-8">
-                <div className="flex items-start gap-5">
-                  <div className="mt-1 p-2 bg-gray-100 rounded-full">
-                    <Activity size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xl mb-1">Dynamic Optimization</h4>
-                    <p className="text-gray-500 text-base leading-relaxed">Real-time adjustment of LTVs and borrow caps based on liquidity depth.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-5">
-                  <div className="mt-1 p-2 bg-gray-100 rounded-full">
-                    <Lock size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xl mb-1">Atomic Safety</h4>
-                    <p className="text-gray-500 text-base leading-relaxed">Automated circuit breakers triggered by oracle deviations.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative h-[600px] w-full bg-black flex items-center justify-center p-10 shadow-2xl">
-              <div className="absolute inset-0 border border-gray-800/50">
-                <div className="w-full h-full opacity-20" style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-              </div>
-
-              <div className="text-center relative z-10">
-                <div className="mb-8 relative inline-block">
-                  <div className="absolute inset-0 bg-white/20 blur-xl rounded-full"></div>
-                  <Cpu size={80} className="text-white relative z-10 animate-pulse" strokeWidth={1} />
-                </div>
-
-                <div className="font-mono text-green-500 text-sm mb-3 tracking-widest">{'>'} SIMULATION_RUNNING</div>
-                <div className="font-mono text-gray-500 text-xs tracking-wider">Processing Block #1829304...</div>
-
-                <div className="mt-12 grid grid-cols-3 gap-3 w-48 mx-auto">
-                  {[...Array(9)].map((_, i) => (
-                    <div key={i} className="aspect-square bg-white opacity-10 animate-ping rounded-sm" style={{ animationDelay: `${i * 150}ms`, animationDuration: '3s' }}></div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
