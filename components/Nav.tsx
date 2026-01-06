@@ -17,10 +17,9 @@ export default function Nav() {
 
   const navItems = [
     { name: 'Services', href: '/#services' },
-    { name: 'Technology', href: '/#technology' },
     { name: 'News', href: '/news' },
     { name: 'Insights', href: '/insights' },
-    { name: 'About', href: '/#about' },
+    { name: 'About', href: '/about' },
   ]
 
   return (
@@ -41,12 +40,9 @@ export default function Nav() {
                 {item.name}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              className="px-6 py-2 bg-white text-black font-serif font-bold text-sm hover:bg-gray-200 transition-colors tracking-wide"
-            >
-              CONTACT US
-            </Link>
+            <button className="px-6 py-2 bg-white text-black font-serif font-bold text-sm hover:bg-gray-200 transition-colors tracking-wide">
+              Access Vaults
+            </button>
           </div>
 
           <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white">
@@ -69,13 +65,6 @@ export default function Nav() {
                 {item.name}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
-              className="inline-block px-6 py-3 bg-white text-black font-serif font-bold text-sm text-center mt-4"
-            >
-              CONTACT US
-            </Link>
           </div>
         </div>
       )}
