@@ -98,8 +98,8 @@ export default function AboutPage() {
           <p className="text-gray-400 text-lg mb-10">
             Get in touch with our team to learn how Unified Labs can help you navigate onchain finance.
           </p>
-          
-            href="mailto:contact@unifiedlabs.io"
+          <a
+            href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-bold text-sm uppercase tracking-widest hover:bg-gray-200 transition-colors"
           >
             Contact Us
