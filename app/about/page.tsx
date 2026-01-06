@@ -1,3 +1,5 @@
+'use client'
+
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { Target, Eye, Sparkles, Shield, Handshake } from 'lucide-react'
@@ -65,21 +67,24 @@ export default function AboutPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-12">
-            {values.map((value, index) => (
-              <div key={index} className="group">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 border border-white/20 rounded-lg flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/10 transition-all duration-300">
-                    <value.icon className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+            {values.map((value, index) => {
+              const IconComponent = value.icon
+              return (
+                <div key={index} className="group">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 border border-white/20 rounded-lg flex items-center justify-center group-hover:border-cyan-400 group-hover:bg-cyan-400/10 transition-all duration-300">
+                      <IconComponent className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+                    </div>
+                    <h3 className="text-2xl font-serif font-bold text-white">
+                      {value.title}
+                    </h3>
                   </div>
-                  <h3 className="text-2xl font-serif font-bold text-white">
-                    {value.title}
-                  </h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {value.description}
+                  </p>
                 </div>
-                <p className="text-gray-400 leading-relaxed">
-                  {value.description}
-                </p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
