@@ -40,9 +40,12 @@ export default function Nav() {
                 {item.name}
               </Link>
             ))}
-            <button className="px-6 py-2 bg-white text-black font-serif font-bold text-sm hover:bg-gray-200 transition-colors tracking-wide">
-              Access Vaults
-            </button>
+            <Link
+              href="/contact"
+              className="px-6 py-2 bg-white text-black font-serif font-bold text-sm hover:bg-gray-200 transition-colors tracking-wide"
+            >
+              CONTACT US
+            </Link>
           </div>
 
           <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white">
@@ -65,6 +68,13 @@ export default function Nav() {
                 {item.name}
               </Link>
             ))}
+            <Link
+              href="/contact"
+              onClick={() => setIsOpen(false)}
+              className="inline-block px-6 py-3 bg-white text-black font-serif font-bold text-sm text-center mt-4"
+            >
+              CONTACT US
+            </Link>
           </div>
         </div>
       )}
